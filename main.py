@@ -14,7 +14,7 @@ game = Game()
 
 running = True
 
-# bouclel qui sexecute tant la condition est vrai
+# boucle qui sexecute tant que la condition est vraie
 while running:
     # appliquer larrier plan
     screen.blit(background, (0, -200))
@@ -22,7 +22,7 @@ while running:
     # appliquer limage du jouer
     screen.blit(game.player.image, game.player.rect)
 
-    # recupere les porjectile du joueur
+    # recupere les porjectiles du joueur
     for projectile in game.player.all_projectiles:
         projectile.move()
 
