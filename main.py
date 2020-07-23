@@ -1,6 +1,6 @@
 import pygame
 from game import Game
-test = "10"
+
 pygame.init()
 
 # genrer la fenetre
