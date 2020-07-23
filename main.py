@@ -9,7 +9,6 @@ screen = pygame.display.set_mode((1080, 720))
 
 # import l'arrie plan
 background = pygame.image.load('assets/assets/bg.jpg')
-
 # charger le jeu
 game = Game()
 
