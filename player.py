@@ -23,8 +23,8 @@ class Player(pygame.sprite.Sprite):
         self.all_projectiles.add(Projectile(self))
 
     def move_rigth(self):
-        # se deplacer seulement si le joueur nest pas en colision avec un monstre
-        if not self.game.chechk_collision(self, self.game.all_monsters):
+        # se deplacer seulement si le joueur nest pas en collision avec un monstre
+        if not self.game.check_collision(self, self.game.all_monsters):
             self.rect.x += self.velocity
 
     def move_left(self):
