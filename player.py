@@ -18,6 +18,29 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = 500
         self.all_projectiles = pygame.sprite.Group()
 
+    def damege(self, amount):
+        if self.health - amount > amount:
+            self.health -= amount
+        else:
+            # si le joueur na plus de points de vie
+            self.game.game_over()
+
+
+    def update_health_bar(self, surface):
+        # definir une couleur pour la jauge de vie
+        bar_color = (111, 210, 46)
+        # couleur d'arrier plan de jauge
+        back_bar_color = (60, 63, 60)
+
+        # definir la position de notre jauge de vie et sa largeur et son epaisseur
+        bar_position = [self.rect.x + 50, self.rect.y + 20, self.health, 7]
+        # definir la position de arriere plan de la jauge de vie
+        back_bar_position = [self.rect.x + 50, self.rect.y + 20, self.max_health, 7]
+
+        # dessiner la barre de vie
+        pygame.draw.rect(surface, back_bar_color, back_bar_position)
+        pygame.draw.rect(surface, bar_color, bar_position)
+
     def launch_proj(self):
         # cree une nouvelle instance du projectile
         self.all_projectiles.add(Projectile(self))

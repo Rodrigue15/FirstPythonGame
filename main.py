@@ -1,4 +1,5 @@
 import pygame
+import math
 from game import Game
 
 pygame.init()
@@ -9,6 +10,20 @@ screen = pygame.display.set_mode((1080, 720))
 
 # import l'arrie plan
 background = pygame.image.load('assets/assets/bg.jpg')
+
+# importer la banier
+banner = pygame.image.load('assets/assets/banner.png')
+banner = pygame.transform.scale(banner, (500, 500))
+banner_rest = banner.get_rect()
+banner_rest.x = math.ceil(screen.get_width() / 4)
+
+# importer button pour le lancement
+play_button = pygame.image.load('assets/assets/button.png')
+play_button = pygame.transform.scale(play_button, (400, 150))
+play_button_rect = play_button.get_rect()
+play_button_rect.x = math.ceil(screen.get_width() / 3.33)
+play_button_rect.y = math.ceil(screen.get_height() / 2)
+
 # charger le jeu
 game = Game()
 
@@ -19,31 +34,19 @@ while running:
     # appliquer larrier plan
     screen.blit(background, (0, -200))
 
-    # appliquer limage du jouer
-    screen.blit(game.player.image, game.player.rect)
+    # verifier si le jeu a commencé
+    if game.is_playing:
+        #declencher les instruction
+        game.update(screen)
 
-    # recupere les porjectiles du joueur
-    for projectile in game.player.all_projectiles:
-        projectile.move()
+    # verifier si notre jeu na pas commencer
+    else:
+        screen.blit(play_button, play_button_rect)
+        screen.blit(banner, banner_rest)
 
-    # depalcer les montres
-    for monster in game.all_monsters:
-        monster.forward()
-
-    # appliquer le group de projectile
-    game.player.all_projectiles.draw(screen)
-
-    #appliquer le group de monsters
-    game.all_monsters.draw(screen)
 
     # mettre a jour la fenetre
     pygame.display.flip()
-
-    # verifier si le joueur veut aller a gche ou  dte
-    if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width():
-        game.player.move_rigth()
-    elif game.pressed.get(pygame.K_LEFT) and game.player.rect.x > 0:
-        game.player.move_left()
 
     # si le joueur ferme la fenetre
     for event in pygame.event.get():
@@ -61,3 +64,9 @@ while running:
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # verification si la souris est en collision avec une button
+            if play_button_rect.collidepoint(event.pos):
+                # mettre le jeu a lance
+                game.start()
